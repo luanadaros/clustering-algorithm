@@ -54,11 +54,15 @@ def build_distances_list(input_data):
 
     return distances
 
-def find_groups(distances, k):
+def find_groups(distances, k, input_data):
     distances = sorted(distances, key=lambda x: (x[2], x[0]), reverse=True)
     distances = distances[k-1:]
 
     graph = nx.Graph()
+
+    for i in range(len(input_data)):
+        graph.add_node(input_data[i][1])
+
     for point1, point2, distance in distances:
         graph.add_edge(point1, point2, weight=distance)
     
@@ -72,7 +76,7 @@ def main():
 
     input_data = read_input_file(input_file)
     distances = build_distances_list(input_data)
-    groups = find_groups(distances, k)
+    groups = find_groups(distances, k, input_data)
     
     write_output_file(output_file, groups)
 
